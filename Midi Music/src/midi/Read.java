@@ -21,6 +21,7 @@ public class Read {
 	public static List<String> createFile = new ArrayList<String>();
 	public static List<String> fileList = new ArrayList<String>();
 	public static List<Integer> sectionsInstrument = new ArrayList<Integer>();
+	public static List<Integer> sectionsVolume = new ArrayList<Integer>();
 	private static int numLines;
 	static int sections = 0;
 	public static String newline = System.getProperty("line.separator");
@@ -31,7 +32,7 @@ public class Read {
 		FileOutputStream os = new FileOutputStream(createFile.get(createFile.size()-1));
 		OutputStreamWriter osw = new OutputStreamWriter(os);
 		Writer write = new BufferedWriter(osw);
-		write.write("Note(Letter Octive #. Sharp = S. Negitive = N):Length(ms)"  + newline + "SECTION:(Instrument #)");
+		write.write("Note(Letter Octive #. Sharp = S. Negitive = N):Length(ms)"  + newline + "SECTION:(Instrument #)" + newline + "Volume:(0 - 120)");
 		write.close();
 		} catch (IOException e)
 		{
@@ -150,7 +151,8 @@ public class Read {
 
 			if(res.toUpperCase().equals("SECTION"))
 			{
-				sectionsLength.add(sectionLength-1);
+				System.out.println("Section Length: " + sectionLength);
+				sectionsLength.add(sectionLength-2);
 				sectionLength = 0;
 				sections++;
 				sb.delete(0, sb.length());
@@ -159,7 +161,9 @@ public class Read {
 				sb.delete(0, sb.length());
 			}
 		}
-		sectionsLength.add(sectionLength);
+		sectionsLength.add(sectionLength-1);
+		sectionsLength.remove(0);
+		sectionsLength.add(0, 0);
 		System.out.println(sectionsLength);
 		System.out.println(sections);
 		setInstrument();
@@ -196,11 +200,96 @@ public class Read {
 					sb.delete(0, sb.length());
 				}
 			}
-			skip+=sectionsLength.get(i)+1;
+			skip+=sectionsLength.get(i)+2;
 		}
 		System.out.println(sectionsInstrument);
 		sectionsLength.remove(0);
-		Create.createMidi();
+		Read.setVolume();
+	}
+	
+	public static String getFileName()
+	{
+		String xd;
+		String fileName = window.Browse.selectedFile;
+		StringBuilder sb = new StringBuilder();
+		char c;
+		
+		for(int i = 0; i < fileName.length(); i++)
+		{
+			c = fileName.charAt(i);
+			if(sb.length() > 4)
+			{
+				sb.append(c);
+				sb.deleteCharAt(0);
+			}else
+			{
+				sb.append(c);
+			}
+		}
+		sb.deleteCharAt(0);
+		xd = sb.toString();
+		if(xd.equals(".txt"))
+		{
+			sb.delete(0, sb.length());
+			for(int j = 0; j < fileName.length() - 4; j++)
+			{
+				c = fileName.charAt(j);
+				sb.append(c);
+			}
+			xd = sb.toString();
+			return xd  + ".mid";
+		}
+		return fileName + ".mid";
+	}
+	
+	public static void setVolume() throws Exception
+	{
+		int Volume = 0;
+		int skip = 0;
+		String res = "";
+		char c;
+		StringBuilder sb = new StringBuilder();
+		for(int i = 1; i < numLines; i++)
+		{
+			String Line = readLine(i);
+			
+			for(int j = 0; j < Line.length(); j++)
+			{
+			c = Line.charAt(j);
+			if(c == ':')
+			{
+				skip = j+1;
+				break;
+			}else
+			{
+				sb.append(c);
+				res = sb.toString();
+			}
+			}
+
+			if(res.toUpperCase().equals("VOLUME"))
+			{
+				System.out.println("VOLUME");
+				sb.delete(0, sb.length());
+				
+				for(int k = 0; k < Line.length() - 7; k++)
+				{
+					c = Line.charAt(skip);
+					sb.append(c);
+					System.out.println("SB: " + sb);
+					skip++;
+					
+				}
+				Volume = Integer.parseInt(sb.toString());
+				sectionsVolume.add(Volume);
+				
+			}else
+			{
+				sb.delete(0, sb.length());
+			}
+		}
+		System.out.println(sectionsVolume);
+		Write.createMidi();
 	}
 
 }

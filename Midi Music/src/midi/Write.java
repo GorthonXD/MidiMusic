@@ -9,9 +9,13 @@ import javax.sound.midi.ShortMessage;
 import javax.sound.midi.SysexMessage;
 import javax.sound.midi.Track;
 
-public class Create {
+import window.CreationProgress;
+
+public class Write {
 	
 	
+	public static int CreationProgressMax;
+	public static int Progress = 0;
 	public static void createMidi() throws Exception
 	{
 			System.out.println("Midi File Creation Has Begun");
@@ -38,16 +42,29 @@ public class Create {
 			midi = new MidiEvent(mm,(long)0);
 			t.add(midi);
 			
+			for(int p = 0; p < Read.sectionsLength.size(); p++)
+			{
+				CreationProgressMax+=Read.sectionsLength.get(p);
+			}
+			CreationProgressMax-=1;
 			
-			int skip = 1;
+			CreationProgress cp = new CreationProgress();
+			
+			cp.start();
+			
+			int skip = 2;
 			int time = 1;
 			int inst = 1;
+			int volume = 120;
 			
 			//Add Each Note of the song
 			for(int i = 0; i < Read.sections; i++)
 			{
+				System.out.println("Skip: " + skip);
 				time = 1;
 				inst = Read.sectionsInstrument.get(i);
+				volume = Read.sectionsVolume.get(i);
+				System.out.println("Volume set to: " + volume);
 				System.out.println("Instrument set to: " + inst);
 				
 			for(int j = 1; j < Read.sectionsLength.get(i)+1; j++)
@@ -57,6 +74,7 @@ public class Create {
 				{
 					System.out.println("Wait! " + Read.getLength(j+skip));
 					time+=Read.getLength(j+skip);
+					Progress++;
 				}else
 				{	
 					
@@ -69,22 +87,26 @@ public class Create {
 				
 				//0x90 Start Key
 				mm = new ShortMessage();
-				mm.setMessage(0x90,note,0x40);
+				mm.setMessage(0x90,note,volume);
 				midi = new MidiEvent(mm,(long)time);
 				t.add(midi);
-			
+				
+				
+				time+=Read.getLength(j);
+				
 				//0x80 Ends Key
 				mm = new ShortMessage();
 				mm.setMessage(0x80,note,0x00);
-				midi = new MidiEvent(mm,(long)time+Read.getLength(j+skip));
+				midi = new MidiEvent(mm,(long)time);
 				t.add(midi);
-				time+=Read.getLength(j);
 				
-				
+				Progress++;
 				}
 			}
-			skip += Read.sectionsLength.get(i)+1;
+			skip += Read.sectionsLength.get(i)+2;
 			}
+			
+			cp.stop();
 			
 			
 			//End Track
@@ -97,11 +119,13 @@ public class Create {
 			
 			//Write File
 			System.out.println("Midi File is being Written!");
-			File f = new File("Notes.mid");
+			File f = new File(Read.getFileName());
 			MidiSystem.write(s,1,f);
 			System.out.println("Midi File Creation has Finished! XD");
+			Play.reset();
 			
 			//Play Music Yo!
-			Play.play();
+			//Play.play();
 		}
-}
+	
+	}
