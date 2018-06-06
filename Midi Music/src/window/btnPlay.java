@@ -11,8 +11,6 @@ public static boolean isPlaying = false;
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		
-		
-		
 		if(isPlaying == true && midi.Play.sequencer.isOpen() == true)
 		{
 			Window.btnPlayPause.setText("Play");
@@ -33,7 +31,7 @@ public static boolean isPlaying = false;
 						e.printStackTrace();
 					}
 			          isPlaying = true;
-			  		Window.TimeLine.setMaximum((int) TimeLineProgress.TimeLineMax);
+			  		Window.TimeLine.setMaximum((int) midi.Play.sequencer.getMicrosecondLength());
 		}
 		
 		

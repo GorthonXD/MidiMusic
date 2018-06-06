@@ -16,6 +16,8 @@ public class Write {
 	
 	public static int CreationProgressMax;
 	public static int Progress = 0;
+	
+	@SuppressWarnings("deprecation")
 	public static void createMidi() throws Exception
 	{
 			System.out.println("Midi File Creation Has Begun");
@@ -42,6 +44,8 @@ public class Write {
 			midi = new MidiEvent(mm,(long)0);
 			t.add(midi);
 			
+			
+			//Calculates the progressbar's Max Value
 			for(int p = 0; p < Read.sectionsLength.size(); p++)
 			{
 				CreationProgressMax+=Read.sectionsLength.get(p);
@@ -123,9 +127,6 @@ public class Write {
 			MidiSystem.write(s,1,f);
 			System.out.println("Midi File Creation has Finished! XD");
 			Play.reset();
-			
-			//Play Music Yo!
-			//Play.play();
 		}
 	
 	}

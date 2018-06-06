@@ -23,30 +23,50 @@ import javax.swing.JMenuBar;
 
 public class Window {
 
+	//Initialize Frame
 	public static  JFrame frmMidiMusic;
-	public static JFrame song = new JFrame();
-	static final JFileChooser fc = new JFileChooser();
-	public static JProgressBar progressBar = new JProgressBar();
-	public static JProgressBar CreationProgress = new JProgressBar();
-	public static Thread t = new Thread();
-	public static JButton btnCreateFile = new JButton("Create");
+	
+	//Initialize MenuBar
 	public static JMenuBar menu = new JMenuBar();
-	static JTextField FileSelect;
+	
+	//Initialize Panel
+	public static JPanel panel = new JPanel();
+	
+	//Initialize Menu
+	public static MenuPlay mp = new MenuPlay();
+	
+	//Initialize Slider
+	public static JSlider TimeLine = new JSlider();
+	
+	//Initialize ProgressBar
+	public static JProgressBar CreationProgress = new JProgressBar();
+	
+	//Initialize FileChoosers
+	public static JFileChooser midifc = new JFileChooser();
+	static final JFileChooser fc = new JFileChooser();
+	
+	//Initialize Buttons
+	public static JButton btnBrowseMidFile = new JButton("Browse");
+	public static JButton btnBrowse = new JButton("Browse");
+	public static JButton btnCreate = new JButton("Create");
 	public static JButton MenuCreate = new JButton("Create");
 	public static JButton MenuPlay = new JButton("Play");
-	public static JPanel panel = new JPanel();
-	public static JLabel lblSelectFile = new JLabel("Select File");
-	public static JButton btnBrowse = new JButton("Browse");
+	public static JButton btnCreateFile = new JButton("Create");
+	public static JButton btnPlayPause = new JButton("Play");
+	
+	//Initialize TextFields
+	public static JTextField MidFileSelect = new JTextField();
 	public static JTextField FileCreate = new JTextField();
-	public static JButton btnCreate = new JButton("Create");
+	static JTextField FileSelect;
+	
+	//Initialize Labels
+	public static JLabel lblSelectFile = new JLabel("Select File");
 	public static JLabel lblNewLabel = new JLabel("");
 	public static JLabel lblCreateFile = new JLabel("Create File");
-	public static MenuPlay mp = new MenuPlay();
-	public static JButton btnPlayPause = new JButton("Play");
-	public static JSlider TimeLine = new JSlider();
-	public static JFileChooser midifc = new JFileChooser();
-	public static JButton btnBrowseMidFile = new JButton("Browse");
-	public static JTextField MidFileSelect = new JTextField();
+	public static JLabel lblSongName = new JLabel();
+	public static JLabel lblTime = new JLabel();
+	public static JLabel lblEndTime = new JLabel();
+	
 
 	/**
 	 * Launch the application.
@@ -71,8 +91,11 @@ public class Window {
 			
 		}
 		
-		//Updates the File Chooser to the selected "Look and Feel"
+		//Updates the Elements to the selected "Look and Feel"
 		fc.updateUI();
+		FileCreate.updateUI();
+		MidFileSelect.updateUI();
+		TimeLine.updateUI();
 		
 		
 		//Makes a new Window
@@ -114,15 +137,16 @@ public class Window {
 		frmMidiMusic.addMouseListener(drag);
 		frmMidiMusic.addMouseMotionListener(drag);
 		
-		//Initialize Labels
+		//Labels
 		lblSelectFile.setBounds(10, 93, 60, 15);
-		
 		lblCreateFile.setBounds(10, 151, 60, 15);
+		
+		lblTime.setBounds(10, 205, 50, 10);
+		lblEndTime.setBounds(300, 205, 50, 10);
 		
 		
 		FileCreate.setBounds(80, 146, 147, 25);
 		FileCreate.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblCreateFile.setLabelFor(FileCreate);
 		FileCreate.setColumns(10);
 		
 		MidFileSelect.setBounds(80, 88, 147, 25);
@@ -132,14 +156,13 @@ public class Window {
 
 		btnCreate.setBounds(245, 146, 80, 25);
 		
-		TimeLine.setBounds(10, 200, 320, 20);
+		
+		//Time Line
+		TimeLine.setBounds(50, 200, 250, 20);
 		TimeLine.setBackground(Color.LIGHT_GRAY);
 		TimeLine.setEnabled(false);
 		TimeLine.setValue(0);
-		TimeLine.updateUI();
 		
-		FileCreate.updateUI();
-		MidFileSelect.updateUI();
 			
 		
 		btnBrowseMidFile.setBounds(245, 88, 80, 25);
@@ -152,7 +175,6 @@ public class Window {
 		btnBrowse.addActionListener(new Browse());
 		FileSelect = new JTextField();
 		FileSelect.setBounds(80, 88, 147, 25);
-		lblSelectFile.setLabelFor(FileSelect);
 		FileSelect.setEditable(false);
 		FileSelect.setColumns(10);
 		btnCreateFile.setBounds(109, 182, 118, 37);
@@ -184,8 +206,6 @@ public class Window {
 
 		
 		
-		
-		lblNewLabel.setBounds(321, 113, 0, 0);
 		
 
 		panel.setBounds(0, 0, 394, 37);

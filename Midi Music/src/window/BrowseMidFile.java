@@ -25,6 +25,8 @@ public class BrowseMidFile implements ActionListener
 				selectedMidFile = Window.fc.getSelectedFile().getName();
 			}
 			
+			Window.TimeLine.setValue(0);
+			btnPlay.Time = 0;
 			Window.MidFileSelect.setText(selectedMidFile);
 	        Window.TimeLine.setEnabled(true);
 	}
