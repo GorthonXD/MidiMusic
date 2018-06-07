@@ -21,7 +21,7 @@ public class Write {
 	public static void createMidi() throws Exception
 	{
 			System.out.println("Midi File Creation Has Begun");
-			Sequence s = new Sequence(javax.sound.midi.Sequence.PPQ,60);
+			Sequence s = new Sequence(javax.sound.midi.Sequence.PPQ,65);
 			Track t = s.createTrack();
 		
 			//Turn on sound Set

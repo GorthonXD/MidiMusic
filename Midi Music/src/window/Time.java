@@ -3,7 +3,6 @@ package window;
 public class Time extends Thread{
 	
 	private static int EndTime;
-	private static int Time;
 	private static int EndMinutes = 0;
 	private static int EndSeconds = 0;
 	private static int Minutes = 0;
