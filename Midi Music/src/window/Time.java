@@ -25,12 +25,21 @@ public class Time extends Thread{
 		
 		EndSeconds = EndTime;
 		
-		if(EndMinutes > 0)
+		if(EndMinutes > 9 && EndSeconds > 9)
 		{
 			Window.lblEndTime.setText("" + EndMinutes + ":" + EndSeconds);
-		}else
+		}
+		if(EndMinutes < 10 && EndSeconds > 9)
 		{
-			Window.lblEndTime.setText("00" + ":" + EndSeconds);
+			Window.lblEndTime.setText("0" + EndMinutes + ":" + EndSeconds);
+		}
+		if(EndMinutes < 10 && EndSeconds < 10)
+		{
+			Window.lblEndTime.setText("0" + EndMinutes + ":0" + EndSeconds);
+		}
+		if(EndMinutes > 9 && EndSeconds < 10)
+		{
+			Window.lblEndTime.setText("" + EndMinutes + ":0" + EndSeconds);
 		}
 		
 		while(midi.Play.sequencer.isRunning() == true)

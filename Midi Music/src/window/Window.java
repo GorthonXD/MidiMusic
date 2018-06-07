@@ -142,7 +142,7 @@ public class Window {
 		lblCreateFile.setBounds(10, 151, 60, 15);
 		
 		lblTime.setBounds(10, 205, 50, 10);
-		lblEndTime.setBounds(300, 205, 50, 10);
+		lblEndTime.setBounds(303, 205, 50, 10);
 		
 		
 		FileCreate.setBounds(80, 146, 147, 25);

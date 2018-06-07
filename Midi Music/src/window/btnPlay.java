@@ -22,7 +22,7 @@ public static boolean isPlaying = false;
 
 		}else
 		{
-			Window.btnPlayPause.setText("Stop");
+			Window.btnPlayPause.setText("Pause");
 			Window.btnPlayPause.setForeground(new Color(128, 0, 0));
 
 					try {
